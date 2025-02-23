@@ -5,18 +5,21 @@
 const cardTemplate = document.querySelector('#card-template').content;
 
 // @todo: Функция создания карточки
-export function addCard(card, deleteCard) {
+export function createCard(card, handleLikeClick, handleImageClick, deleteCard) {
   const cardElement = cardTemplate.querySelector('.places__item').cloneNode(true);
   
   const cardImage = cardElement.querySelector('.card__image');
   const cardDeleteButton = cardElement.querySelector('.card__delete-button');
   const cardTitle = cardElement.querySelector('.card__title');
+  const likeButton = cardElement.querySelector(".card__like-button");
 
   cardImage.src = card.link;
   cardImage.alt = card.name;
   cardTitle.textContent = card.name;
 
+  likeButton.addEventListener("click", handleLikeClick);
   cardDeleteButton.addEventListener('click', () => deleteCard(cardElement));
+  cardImage.addEventListener("click", () => handleImageClick(card));
   
   return cardElement;
 }
