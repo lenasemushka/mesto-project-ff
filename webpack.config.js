@@ -12,7 +12,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     // переписали точку выхода, используя утилиту path 
     filename: 'main.js',
-    publicPath: '/',
+    publicPath: './',
 },
 // указали, в какой файл будет собираться весь js, и дали ему имя 
   mode: 'development', // добавили режим разработчика
