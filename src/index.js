@@ -1,5 +1,6 @@
 import './pages/index.css';
 import './images/logo.svg';
+import './images/avatar.jpg';
 import { getUserInfo, getInitialCards, updateUserInfo, addNewCard, updateAvatar } from './components/api.js';
 import { createCard, handleLikeClick } from './components/card.js';
 import { openModal, closeModal, setPopupListeners } from './components/modal.js';
