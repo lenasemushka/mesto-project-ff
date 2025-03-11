@@ -6,12 +6,42 @@
   font-size: 14px;
   line-height: 18px;
   box-sizing: border-box;
-  padding: 10px 0 0;
+  padding: 10px 5px 0;
   margin-bottom: 10px;
+}
+
+.popup__input.popup__input_type_error {
+  border-bottom: 1px solid #f00;
+} 
+
+.popup__input.popup__input_type_error:focus {
+  border: 2px solid #4a90e2;
+  border-radius: 2px;
+  padding: 9px 5px 0;
+  box-shadow: inset 0 -1px 0 #f00; /* Создаёт красную линию чуть выше нижней границы */
+}
+
+.popup__input:focus {
+  outline: none;
+  border: 2px solid #4a90e2;
+  border-radius: 2px;
+  padding: 9px 5px 0;
 }
 
 .popup__input:last-of-type {
   margin-bottom: 0;
+}
+
+.popup__input-error {
+  display: none;
+}
+
+.popup__error_visible {
+  display: block; 
+  color: red;
+  font-size: 12px;
+  margin-left: 5px;
+  box-sizing: border-box;
 }
 
 @media screen and (max-width: 568px) {

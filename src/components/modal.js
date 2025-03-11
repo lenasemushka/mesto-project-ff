@@ -1,3 +1,5 @@
+import { clearValidation, validationConfig } from './validation.js';
+
 const handleEscKeyUp = (e) => {
   if (e.key === "Escape") {
     const popup = document.querySelector(".popup_is-opened"); // находим открытый попап
@@ -11,8 +13,14 @@ export const openModal = (modal) => {
 };
 
 export const closeModal = (modal) => {
-  modal.classList.remove("popup_is-opened"); // удалить класс открытия попапа
-  document.removeEventListener("keydown", handleEscKeyUp); // удалить слушатель на кнопку Escape
+  if (!modal) return;  // Если модалка не передана, ничего не делаем
+  const formElement = modal.querySelector('.popup__form');
+  if (formElement) {
+    formElement.reset();
+    clearValidation(formElement, validationConfig);
+  }
+  modal.classList.remove("popup_is-opened");  // Закрываем модалку
+  document.removeEventListener("keydown", handleEscKeyUp);  // Убираем обработчик клавиши Escape
 };
 
 export const setPopupListeners = (popupElement) => {
@@ -27,7 +35,3 @@ export const setPopupListeners = (popupElement) => {
     }
   });
 };
-
-
-
-
