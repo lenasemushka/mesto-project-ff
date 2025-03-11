@@ -3,9 +3,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin'); // подключил�
 const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // подключила плагин 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // подключила к проекту mini-css-extract-plugin
 
-module.exports = {
-  entry: {
-    main: './src/index.js' 
+module.exports = (env, argv) => {
+  const isProduction = argv.mode === 'production';
+
+  return {
+    entry: {
+      main: './src/index.js' 
   },
   // указали первое место, куда заглянет webpack, — файл index.js в папке src 
   output: {
@@ -15,7 +18,7 @@ module.exports = {
     publicPath: './',
 },
 // указали, в какой файл будет собираться весь js, и дали ему имя 
-  mode: 'development', // добавили режим разработчика
+  mode:  isProduction ? 'production' : 'development', // добавили режим разработчика
   devServer: {
     static: path.resolve(__dirname, './dist'), // путь, куда "смотрит" режим разработчика
     open: true, // сайт будет открываться сам при запуске npm run dev
@@ -69,7 +72,8 @@ module.exports = {
   
   ] // добавьте массив
 }
+}
 
 
 
-// module.exports — это синтаксис экспорта в Node.js 
+// module.exports — это синтаксис экспорта в Node.js
