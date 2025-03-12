@@ -4,7 +4,16 @@ import './images/avatar.jpg';
 import { getUserInfo, getInitialCards, updateUserInfo, addNewCard, updateAvatar } from './components/api.js';
 import { createCard, handleLikeClick } from './components/card.js';
 import { openModal, closeModal, setPopupListeners } from './components/modal.js';
-import { enableValidation, clearValidation, validationConfig } from './components/validation.js';
+import { enableValidation, clearValidation } from './components/validation.js';
+
+const validationConfig = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+};
 
 const popupEditProfile = document.querySelector(".popup_type_edit");
 const popupAddCard = document.querySelector(".popup_type_new-card");
@@ -53,18 +62,19 @@ Promise.all([getUserInfo(), getInitialCards()])
   });
 
 editProfileButton.addEventListener("click", () => {
-  nameInput.value = profileTitle.textContent;
-  descriptionInput.value = profileDescription.textContent;
+  formEditProfile.reset();
   clearValidation(formEditProfile, validationConfig);
   openModal(popupEditProfile);
 });
 
 profileImage.addEventListener("click", () => {
+  avatarForm.reset();
   clearValidation(avatarForm, validationConfig);
   openModal(popupAvatarEdit);
 });
 
 addCardButton.addEventListener("click", () => {
+  formAddCard.reset();
   clearValidation(formAddCard, validationConfig);
   openModal(popupAddCard);
 });
@@ -85,6 +95,9 @@ function handleFormSubmit(form, submitCallback) {
     }
 
     submitCallback()
+      .then(() => { 
+        closeModal(form.closest(".popup"));
+      })
       .catch((err) => {
         console.error("Ошибка:", err);
         const errorElement = form.querySelector(`.${validationConfig.inputErrorClass}`);
@@ -100,23 +113,22 @@ handleFormSubmit(avatarForm, () => {
   const avatarUrl = avatarForm.elements.avatar.value;
   return updateAvatar(avatarUrl).then((updatedUser) => {
     profileImage.style.backgroundImage = `url('${updatedUser.avatar}')`;
-    closeModal(popupAvatarEdit);
   })
 });
 
 handleFormSubmit(formEditProfile, () => {
-  return updateUserInfo(nameInput.value, descriptionInput.value).then((userData) => {
+  return updateUserInfo(nameInput.value, descriptionInput.value)
+  .then((userData) => {
     renderUserInfo(userData);
-    closeModal(popupEditProfile);
   })
 });
 
 handleFormSubmit(formAddCard, () => {
   const name = placeNameInput.value;
   const link = linkInput.value;
-  return addNewCard(name, link, userId).then((card) => {
+  return addNewCard(name, link, userId)
+  .then((card) => {
     addCardToDOM(card, userId);
-    closeModal(popupAddCard);
   });
 });
 

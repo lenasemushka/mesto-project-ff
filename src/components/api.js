@@ -21,19 +21,14 @@ const handleResponse = (res) => {
 export const getUserInfo = () => {
   return fetch(`${config.baseUrl}/users/me`, { 
     headers: config.headers })
-    .then(handleResponse)
-    .catch((err) => console.error("Ошибка загрузки информации о пользователе с сервера:", err));
+    .then(handleResponse);
 };
 
 // Загрузка карточек с сервера (пункт 4)
 export const getInitialCards = () => {
   return fetch(`${config.baseUrl}/cards`, { 
     headers: config.headers })
-    .then(handleResponse)
-    .then((cards) => {
-      return cards;
-    })
-    .catch((err) => console.error("Ошибка загрузки карточки с сервера:", err));;
+    .then(handleResponse);
 };
 
 // редактирование профиля (пункт 5)
@@ -46,9 +41,8 @@ export const updateUserInfo = (name, about) => {
     },
     body: JSON.stringify({ name, about }),
   })
-    .then(handleResponse)
-    .catch((err) => console.error("Ошибка редактирования профиля:", err));
-};
+    .then(handleResponse);
+  };
 
 // Добавление новой карточки (пункт 6)
 export const addNewCard = (name, link, userId) => {
@@ -60,13 +54,7 @@ export const addNewCard = (name, link, userId) => {
     },
     body: JSON.stringify({ name, link, owner: userId })
   })
-    .then(handleResponse)
-    .then((card) => {
-      console.log("Добавлена карточка с сервера:", card);
-      card.likes = card.likes || [];
-      return card;
-    })
-    .catch((err) => console.error("Ошибка добавления новой карточки:", err));
+    .then(handleResponse);
 };
 
 // удаление карточки (пункт 8)
@@ -75,11 +63,7 @@ export function deleteCardApi(cardId) {
     method: "DELETE",
     headers: config.headers
   })
-  .then(handleResponse)
-  .catch((err) => {
-    console.error("Ошибка при удалении карточки:", err);
-    throw err;
-  });
+  .then(handleResponse);
 }
 
 // постановка и снятие лайка (пункт 9)
@@ -91,17 +75,7 @@ export const toggleLike = (cardId, isLiked) => {
     method: method,
     headers: config.headers,
   })
-    .then(handleResponse)
-    .then((updatedCard) => {
-      if (!updatedCard || !updatedCard._id) {
-        throw new Error("Некорректные данные карточки");
-      }
-      return updatedCard;
-    })
-    .catch((err) => {
-      console.error("Ошибка при смене лайка:", err);
-      throw err;
-    });
+    .then(handleResponse);
 };
 
 // обновление аватара пользователя (пункт 10)
@@ -111,15 +85,5 @@ export function updateAvatar(avatarUrl) {
     headers: config.headers,
     body: JSON.stringify({ avatar: avatarUrl }),
   })
-    .then(handleResponse)
-    .then((updatedUser) => {
-      if (!updatedUser || !updatedUser.avatar) {
-        throw new Error("Некорректные данные пользователя");
-      }
-      return updatedUser;
-    })
-    .catch((err) => {
-      console.error("Ошибка при обновлении аватара:", err);
-      throw err;
-    });
+    .then(handleResponse);
 }

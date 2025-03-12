@@ -31,14 +31,13 @@ export function createCard(card, handleLikeClick, handleImageClick, userId) {
     }
   }
 
-  likeButton.addEventListener("click", (event) => handleLikeClick(event, card, userId));
+  likeButton.addEventListener("click", () => handleLikeClick(userId, likeButton, likeCounter));
 
   return cardElement;
 }
 
 // Функция, обработывающая событие лайка
-export function handleLikeClick(event, card, userId) {
-  const likeButton = event.target;
+export function handleLikeClick(userId, likeButton, likeCounter) {
   const cardElement = likeButton.closest(".places__item");
 
   if (!cardElement) {
@@ -49,12 +48,6 @@ export function handleLikeClick(event, card, userId) {
   const cardId = cardElement.dataset.cardId;
   if (!cardId) {
     console.error("Ошибка: у карточки нет ID.");
-    return;
-  }
-
-  const likeCounter = cardElement.querySelector(".card__like-counter");
-  if (!likeCounter) {
-    console.error("Ошибка: счётчик лайков не найден");
     return;
   }
   
@@ -71,8 +64,6 @@ export function handleLikeClick(event, card, userId) {
     })
     .catch((err) => {
       console.error("Ошибка при изменении лайка:", err);
-      likeButton.classList.toggle("card__like-button_is-active", !isLiked);
-      likeCounter.textContent = isLiked ? parseInt(likeCounter.textContent, 10) - 1 : parseInt(likeCounter.textContent, 10) + 1;
     });
 }
 

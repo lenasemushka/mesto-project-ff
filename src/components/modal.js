@@ -14,20 +14,17 @@ export const openModal = (modal) => {
 
 export const closeModal = (modal) => {
   if (!modal) return;  // Если модалка не передана, ничего не делаем
-  const formElement = modal.querySelector('.popup__form');
-  if (formElement) {
-    formElement.reset();
-    clearValidation(formElement, validationConfig);
-  }
   modal.classList.remove("popup_is-opened");  // Закрываем модалку
   document.removeEventListener("keydown", handleEscKeyUp);  // Убираем обработчик клавиши Escape
 };
 
 export const setPopupListeners = (popupElement) => {
   const closeButton = popupElement.querySelector(".popup__close"); // ищем кнопку крестик в попапе
-  closeButton.addEventListener("click", () => {
-    closeModal(popupElement); // закрываем попап
+    if (closeButton) {
+      closeButton.addEventListener("click", () => {
+        closeModal(popupElement); // закрываем попап
   });
+}
 
   popupElement.addEventListener("mousedown", (event) => {
     if (event.target.classList.contains("popup")) { // если event.target содержит класс "popup", то закрываем
