@@ -62,6 +62,8 @@ Promise.all([getUserInfo(), getInitialCards()])
   });
 
 editProfileButton.addEventListener("click", () => {
+  nameInput.value = profileTitle.textContent; 
+  descriptionInput.value = profileDescription.textContent; 
   formEditProfile.reset();
   clearValidation(formEditProfile, validationConfig);
   openModal(popupEditProfile);
